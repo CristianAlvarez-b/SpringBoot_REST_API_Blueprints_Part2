@@ -23,7 +23,7 @@ import java.util.Set;
  *
  * @author hcadavid
  */
-@Service("inMemoryBlueprintPersistence")
+@Repository("inMemoryBlueprintPersistence")
 @Primary
 public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 

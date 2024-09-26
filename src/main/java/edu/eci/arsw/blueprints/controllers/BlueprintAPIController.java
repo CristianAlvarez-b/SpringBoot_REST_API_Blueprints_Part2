@@ -7,10 +7,12 @@ package edu.eci.arsw.blueprints.controllers;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.services.BlueprintsServices;
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,19 +26,32 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "/blueprints")
 public class BlueprintAPIController {
-@Autowired
-private BlueprintsServices blueprintsServices;
-@GetMapping
-public ResponseEntity<?> getBlueprints(){
-    try{
-        return new ResponseEntity<>(blueprintsServices.getAllBlueprints(), HttpStatus.OK);
-    }catch (Exception e){
-        System.out.println(e.getMessage());
-        return new ResponseEntity<>("Resource Not Found " , HttpStatus.NOT_FOUND);
+    @Autowired
+    private BlueprintsServices blueprintsServices;
+    @GetMapping
+    public ResponseEntity<?> getBlueprints(){
+        try{
+            return new ResponseEntity<>(blueprintsServices.getAllBlueprints(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Resource Not Found " , HttpStatus.NOT_FOUND);
+        }
     }
-}
-    
-    
-    
+    @GetMapping("/{author}")
+    public ResponseEntity<?> getBlueprintsByAuthor(@PathVariable String author) {
+        try {
+            return new ResponseEntity<>(blueprintsServices.getBlueprintsByAuthor(author), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Resource Not Found ", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{author}/{bpname}")
+    public ResponseEntity<?> getBlueprint(@PathVariable String author, @PathVariable String bpname) {
+        try {
+            return new ResponseEntity<>(blueprintsServices.getBlueprint(author, bpname), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Resource Not Found ", HttpStatus.NOT_FOUND);
+        }
+    }
 }
 

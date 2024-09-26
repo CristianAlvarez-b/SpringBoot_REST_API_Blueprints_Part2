@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-@Service("anotherBlueprintsPersistence")
+@Repository("anotherBlueprintsPersistence")
 public class AnotherBlueprintsPersistence implements BlueprintsPersistence {
     @Override
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException {
