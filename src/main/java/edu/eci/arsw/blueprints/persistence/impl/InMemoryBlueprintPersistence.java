@@ -95,4 +95,15 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         saveBlueprint(bp);
         saveBlueprint(newBlueprint3);
     }
+
+    @Override
+    public void updateBlueprint(Blueprint bp) throws BlueprintPersistenceException {
+        if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
+            blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
+        }
+        else{
+            throw new BlueprintPersistenceException("The given blueprint doesn't exists: "+bp);
+        }
+    }
+
 }

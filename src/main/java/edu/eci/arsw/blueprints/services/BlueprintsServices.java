@@ -73,4 +73,7 @@ public class BlueprintsServices {
         }
         return filterBlueprints;
     }
+    public void updateBlueprint(Blueprint blueprint) throws BlueprintPersistenceException {
+        bpp.updateBlueprint(blueprint);
+    }
 }

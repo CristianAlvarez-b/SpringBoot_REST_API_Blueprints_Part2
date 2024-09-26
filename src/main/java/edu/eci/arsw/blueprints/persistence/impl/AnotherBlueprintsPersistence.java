@@ -30,4 +30,9 @@ public class AnotherBlueprintsPersistence implements BlueprintsPersistence {
     public Set<Blueprint> getAllBlueprints() {
         return null;
     }
+
+    @Override
+    public void updateBlueprint(Blueprint blueprint) {
+
+    }
 }

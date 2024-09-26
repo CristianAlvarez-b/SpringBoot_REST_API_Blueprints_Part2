@@ -6,15 +6,15 @@
 package edu.eci.arsw.blueprints.controllers;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
+import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
+import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import edu.eci.arsw.blueprints.services.BlueprintsServices;
 import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -52,6 +52,32 @@ public class BlueprintAPIController {
         } catch (Exception e) {
             return new ResponseEntity<>("Resource Not Found ", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addBlueprint(@RequestBody Blueprint blueprint){
+        try {
+            blueprintsServices.addNewBlueprint(blueprint);
+            return new ResponseEntity<>("Resource Created ", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Resource Not Created ", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> replaceBlueprint(@RequestBody Blueprint blueprint){
+        try {
+            blueprintsServices.updateBlueprint(blueprint);
+            return new ResponseEntity<>("Resource Updated", HttpStatus.OK);
+        } catch (BlueprintPersistenceException e) {
+            try {
+                blueprintsServices.addNewBlueprint(blueprint);
+                return new ResponseEntity<>("Resource Created ", HttpStatus.CREATED);
+            } catch (BlueprintPersistenceException ex) {
+                return new ResponseEntity<>("Resource Not Created ", HttpStatus.FORBIDDEN);
+            }
+        }
+
     }
 }
 
