@@ -1,4 +1,5 @@
 ### Escuela Colombiana de Ingeniería
+# Elaborado por: Cristian Alvarez - Juliana Briceño
 
 ### Arquitecturas de Software
 
@@ -50,6 +51,9 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	```
 	* Haga que en esta misma clase se inyecte el bean de tipo BlueprintServices (al cual, a su vez, se le inyectarán sus dependencias de persisntecia y de filtrado de puntos).
 
+
+
+
 4. Verifique el funcionamiento de a aplicación lanzando la aplicación con maven:
 
 	```bash
@@ -57,13 +61,24 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	$ mvn spring-boot:run
 	
 	```
+ ![image](https://github.com/user-attachments/assets/a947b89a-3afd-4f21-a504-65277a8f07a8)
+
+ ![image](https://github.com/user-attachments/assets/e60ae85a-16eb-413f-b6a5-fde8b8ea0017)
+
+ 
+
 	Y luego enviando una petición GET a: http://localhost:8080/blueprints. Rectifique que, como respuesta, se obtenga un objeto jSON con una lista que contenga el detalle de los planos suministados por defecto, y que se haya aplicado el filtrado de puntos correspondiente.
 
+![image](https://github.com/user-attachments/assets/5a9d43ef-1566-4904-a46d-b846a814c3c3)
 
 5. Modifique el controlador para que ahora, acepte peticiones GET al recurso /blueprints/{author}, el cual retorne usando una representación jSON todos los planos realizados por el autor cuyo nombre sea {author}. Si no existe dicho autor, se debe responder con el código de error HTTP 404. Para esto, revise en [la documentación de Spring](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html), sección 22.3.2, el uso de @PathVariable. De nuevo, verifique que al hacer una petición GET -por ejemplo- a recurso http://localhost:8080/blueprints/juan, se obtenga en formato jSON el conjunto de planos asociados al autor 'juan' (ajuste esto a los nombres de autor usados en el punto 2).
 
+![image](https://github.com/user-attachments/assets/7e004491-6127-4087-8c82-f3b1c003101b)
+
+
 6. Modifique el controlador para que ahora, acepte peticiones GET al recurso /blueprints/{author}/{bpname}, el cual retorne usando una representación jSON sólo UN plano, en este caso el realizado por {author} y cuyo nombre sea {bpname}. De nuevo, si no existe dicho autor, se debe responder con el código de error HTTP 404. 
 
+![image](https://github.com/user-attachments/assets/c48e6dee-ae05-4b19-abd3-b7f0d5fdb740)
 
 
 ### Parte II
@@ -101,10 +116,19 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 
 	Nota: puede basarse en el formato jSON mostrado en el navegador al consultar una orden con el método GET.
 
+![image](https://github.com/user-attachments/assets/29320778-6c2f-4832-a99e-f52d777321ae)
+
 
 3. Teniendo en cuenta el autor y numbre del plano registrado, verifique que el mismo se pueda obtener mediante una petición GET al recurso '/blueprints/{author}/{bpname}' correspondiente.
 
+![image](https://github.com/user-attachments/assets/f1ead3da-20fc-4cb1-b72a-248d7add2c0b)
+
+
 4. Agregue soporte al verbo PUT para los recursos de la forma '/blueprints/{author}/{bpname}', de manera que sea posible actualizar un plano determinado.
+
+![image](https://github.com/user-attachments/assets/203e4a1d-7046-49c5-b567-6cd735200d6f)
+
+![image](https://github.com/user-attachments/assets/393ea1e5-2ee5-4734-bec3-9f0b7f8d1d3c)
 
 
 ### Parte III
