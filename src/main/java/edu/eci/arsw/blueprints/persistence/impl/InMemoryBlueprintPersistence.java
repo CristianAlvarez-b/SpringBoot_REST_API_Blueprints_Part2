@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -39,12 +40,10 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
     
     @Override
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException {
-        if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
-            throw new BlueprintPersistenceException("The given blueprint already exists: "+bp);
+        if (blueprints.putIfAbsent(new Tuple<>(bp.getAuthor(), bp.getName()), bp) != null) {
+            throw new BlueprintPersistenceException("The given blueprint already exists: " + bp);
         }
-        else{
-            blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
-        }        
+
     }
 
     @Override
@@ -98,11 +97,8 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     @Override
     public void updateBlueprint(Blueprint bp) throws BlueprintPersistenceException {
-        if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
-            blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
-        }
-        else{
-            throw new BlueprintPersistenceException("The given blueprint doesn't exists: "+bp);
+        if (blueprints.replace(new Tuple<>(bp.getAuthor(), bp.getName()), bp) == null) {
+            throw new BlueprintPersistenceException("The given blueprint doesn't exist: " + bp);
         }
     }
 
